@@ -1,0 +1,3 @@
+creation_rules:
+  - path_regex: \.enc\.\w+$
+    gcp-kms: "projects/golang-webserver/locations/global/keyRings/sops/cryptoKeys/sops-key"
