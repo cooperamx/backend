@@ -1,2 +1,4 @@
 export PROJECT_ID=cooperamx
+export CLOUD_RUN_SERVICE=cooperamx-backend
+export GCP_REIGION=us-central1
 export IMAGE=cooperamx-backend
