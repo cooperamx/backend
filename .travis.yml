@@ -10,10 +10,10 @@ jobs:
   include:
     - stage: Validate
       name: test
-      script: npm run test
+      script: source bin/env && make test
     - name: lint
-      script: npm run lint
+      script: source bin/env && make lint
 
     - stage: Build
       name: build-image
-      script: make build
+      script: source bin/env && make build
