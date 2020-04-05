@@ -12,4 +12,5 @@ set -eu
 gcloud run deploy ${CLOUD_RUN_SERVICE} \
     --image "gcr.io/$PROJECT_ID/$IMAGE" \
     --platform managed \
-    --region ${GCP_REIGION}
+    --region ${GCP_REIGION} \
+    --allow-unauthenticated

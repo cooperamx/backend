@@ -2,7 +2,7 @@
 
 # use this script to build and push the docker image using gcloud build.
 # example usage:
-#   bash ./bin/build.sh
+#   bash ./bin/gcp_build_and_push.sh
 
 set -eu
 
