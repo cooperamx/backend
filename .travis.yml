@@ -6,6 +6,10 @@ node_js:
 services:
   - docker
 
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
 jobs:
   include:
     - stage: Validate
@@ -17,3 +21,18 @@ jobs:
     - stage: Build
       name: build-image
       script: source bin/env && make build
+
+    - stage: Build and Push
+      name: build-image
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_635c6ce9fc60_key -iv $encrypted_635c6ce9fc60_iv -in config/travis-cd.json.enc -out config/travis-cd.json -d
+        - curl https://sdk.cloud.google.com | bash > /dev/null
+        - source bin/env
+        - gcloud auth activate-service-account --key-file=config/travis-cd.json
+        - gcloud config set project "${PROJECT_ID}"
+
+      install: true # no-op
+      script: source bin/env && ./bin/gcp_build_and_push.sh
+    # - stage: Deploy
+    #   name: deploy
+    #   script: source bin/env && ./bin/deploy.sh
