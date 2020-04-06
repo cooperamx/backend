@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 const uuid4 = require('uuid').v4;
 const { Datastore } = require('@google-cloud/datastore');
 const assert = require('assert');
