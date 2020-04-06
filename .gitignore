@@ -119,3 +119,8 @@ dist
 .terraform
 terraform.tfstate.backup
 .DS_Store
+
+
+config/*
+!config/*.enc.*
+!config/travis-cd.json.enc

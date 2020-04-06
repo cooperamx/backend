@@ -1,0 +1,51 @@
+language: node_js
+
+node_js:
+  - "13"
+
+services:
+  - docker
+
+env:
+  global:
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+_setup_gcloud: &setup_gcloud
+  before_install:
+    - openssl aes-256-cbc -K $encrypted_635c6ce9fc60_key -iv $encrypted_635c6ce9fc60_iv -in config/travis-cd.json.enc -out config/travis-cd.json -d
+    - curl https://sdk.cloud.google.com | bash > /dev/null
+    - source "$HOME/google-cloud-sdk/path.bash.inc"
+    - source bin/env
+    - gcloud auth activate-service-account --key-file=config/travis-cd.json
+    - source bin/gcloud_configure.sh
+
+jobs:
+  include:
+    - stage: Validate
+      name: test
+      script: source bin/env && make test
+    - name: lint
+      script: source bin/env && make lint
+
+    - stage: Build
+      # only validate that the image builds successful without pushing it
+      # we don't want to create images for every PR commit
+      name: build-image
+      if: branch != master
+      script: source bin/env && make build
+
+    - stage: Build and Push
+      name: build-image
+      if: branch == master
+      language: shell
+      <<: *setup_gcloud
+      install: true # no-op
+      script: source bin/env && ./bin/gcp_build_and_push.sh
+
+    - stage: Deploy
+      name: deploy
+      language: shell
+      if: branch == master
+      <<: *setup_gcloud
+      install: true # no-op
+      script: source bin/env && ./bin/deploy.sh
