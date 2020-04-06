@@ -12,15 +12,15 @@ env:
 
 jobs:
   include:
-    - stage: Validate
-      name: test
-      script: source bin/env && make test
-    - name: lint
-      script: source bin/env && make lint
+    # - stage: Validate
+    #   name: test
+    #   script: source bin/env && make test
+    # - name: lint
+    #   script: source bin/env && make lint
 
-    - stage: Build
-      name: build-image
-      script: source bin/env && make build
+    # - stage: Build
+    #   name: build-image
+    #   script: source bin/env && make build
 
     - stage: Build and Push
       name: build-image
@@ -29,7 +29,7 @@ jobs:
         - curl https://sdk.cloud.google.com | bash > /dev/null
         - source bin/env
         - gcloud auth activate-service-account --key-file=config/travis-cd.json
-        - gcloud config set project "${PROJECT_ID}"
+        - source bin/gcloud_configure.sh
 
       install: true # no-op
       script: source bin/env && ./bin/gcp_build_and_push.sh
