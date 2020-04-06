@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  dev:
+    image: gcr.io/${PROJECT_ID}/${IMAGE}
+    build: .
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "8080:8080"
+    environment:
+      - ENVIRONMENT=local
+      - SERVICE_ACCOUNT_BASE64=${SERVICE_ACCOUNT_BASE64}

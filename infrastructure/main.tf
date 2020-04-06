@@ -1,8 +1,8 @@
 terraform {
   required_version = "~> 0.12"
   backend "gcs" {
-    bucket  = "cooperamx-terraform-state"
-    prefix  = "cooperamx-backend"
+    bucket = "cooperamx-terraform-state"
+    prefix = "cooperamx-backend"
   }
 }
 
@@ -21,7 +21,7 @@ locals {
 }
 
 resource "google_container_registry" "registry" {
-  project  = local.project_name
+  project = local.project_name
 }
 
 output "bucket_self_link" {
@@ -29,13 +29,25 @@ output "bucket_self_link" {
 }
 
 resource "google_cloud_run_service" "self" {
-  name     = local.image_name
-  location = local.region
+  name                       = local.image_name
+  location                   = local.region
+  # waiting for next release to tuse this
+  # autogenerate_revision_name = true
 
   template {
+    metadata {
+      name = "${local.image_name}-${filemd5("main.tf")}"
+    }
     spec {
+
+      service_account_name = google_service_account.self.email
       containers {
         image = local.image
+
+        env {
+          name  = "ENVIRONMENT"
+          value = "production"
+        }
       }
     }
   }
@@ -44,4 +56,9 @@ resource "google_cloud_run_service" "self" {
     percent         = 100
     latest_revision = true
   }
+}
+
+resource "google_service_account" "self" {
+  account_id   = local.image_name
+  display_name = local.image_name
 }
