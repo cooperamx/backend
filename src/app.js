@@ -1,9 +1,8 @@
-/* eslint no-console: 0 */
-const express = require('express');
+const Server = require('./server');
 
-const app = express();
-const port = 8080;
+const instance = new Server({
+  port: 3000,
+  environment: 'development'
+})
 
-app.get('/', (req, res) => res.send('Hello Coopera.mx!'));
-
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+instance.start();
