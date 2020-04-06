@@ -34,6 +34,15 @@ jobs:
         - source bin/gcloud_configure.sh
       install: true # no-op
       script: source bin/env && ./bin/gcp_build_and_push.sh
-    # - stage: Deploy
-    #   name: deploy
-    #   script: source bin/env && ./bin/deploy.sh
+
+    - stage: Deploy
+      name: deploy
+      # if: branch == master
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_635c6ce9fc60_key -iv $encrypted_635c6ce9fc60_iv -in config/travis-cd.json.enc -out config/travis-cd.json -d
+        - curl https://sdk.cloud.google.com | bash > /dev/null
+        - source bin/env
+        - gcloud auth activate-service-account --key-file=config/travis-cd.json
+        - source bin/gcloud_configure.sh
+      install: true # no-op
+      script: source bin/env && ./bin/deploy.sh

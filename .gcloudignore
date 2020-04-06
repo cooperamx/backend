@@ -1,0 +1,5 @@
+.git
+.gitignore
+build
+.terraform
+config/travis-cd.json
