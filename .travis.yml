@@ -21,20 +21,22 @@ _setup_gcloud: &setup_gcloud
 
 jobs:
   include:
-    # - stage: Validate
-    #   name: test
-    #   script: source bin/env && make test
-    # - name: lint
-    #   script: source bin/env && make lint
+    - stage: Validate
+      name: test
+      script: source bin/env && make test
+    - name: lint
+      script: source bin/env && make lint
 
-    # - stage: Build
-    #   name: build-image
-    # if: branch != master
-    #   script: source bin/env && make build
+    - stage: Build
+      # only validate that the image builds successful without pushing it
+      # we don't want to create images for every PR commit
+      name: build-image
+      if: branch != master
+      script: source bin/env && make build
 
     - stage: Build and Push
       name: build-image
-      # if: branch == master
+      if: branch == master
       language: shell
       <<: *setup_gcloud
       install: true # no-op
@@ -43,7 +45,7 @@ jobs:
     - stage: Deploy
       name: deploy
       language: shell
-      # if: branch == master
+      if: branch == master
       <<: *setup_gcloud
       install: true # no-op
       script: source bin/env && ./bin/deploy.sh
