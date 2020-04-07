@@ -1,8 +1,8 @@
 const Server = require('./server');
 
 const instance = new Server({
-  port: 3000,
-  environment: 'development'
-})
+  port: 8080,
+  environment: 'local',
+});
 
 instance.start();

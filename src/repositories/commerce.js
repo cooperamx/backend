@@ -1,17 +1,21 @@
 const uuid4 = require('uuid').v4;
 
 class CommerceRepository {
-  constructor (dataStore) {
+  constructor(dataStore) {
     this.dataStore = dataStore;
   }
 
-  create (data) {
-    const key = this.dataStore.key(['Commerce', uuid4()]);
+  async create(data) {
+    const id = uuid4();
+    const key = this.dataStore.key(['Commerce', id]);
 
-    return this.dataStore.save({ key, data });
+    await this.dataStore.save({ key, data });
+
+    return id;
   }
 
-  get (key) {
+  get(id) {
+    const key = this.dataStore.key(['Commerce', id]);
     return this.dataStore.get(key);
   }
 }

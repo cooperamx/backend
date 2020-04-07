@@ -9,8 +9,8 @@ module.exports = (commerceRepository) => {
   });
 
   router.post('/', async (req, res) => {
-    const commerce = await commerceRepository.create(req.body);
-    return res.json(commerce);
+    const commerceId = await commerceRepository.create(req.body);
+    return res.json({ id: commerceId });
   });
 
   return router;
