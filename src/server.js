@@ -1,15 +1,22 @@
+const express = require('express');
+
+const commerceController = require('./controllers/commerce');
+
 class Server {
-  constructor (config) {
-    this.port = config.port
+  constructor(config) {
+    this.port = config.port;
     this.environment = config.environment;
   }
 
-  start () {
+  start() {
     const app = express();
-    app.get('/', (req, res) => res.send('Hello bis'));
 
-    app.listen(this.port, () => console.log('Started listening'));
+    app.use(commerceController);
+
+    app.listen(this.port, () => console.log('Started listening')); // eslint-disable-line
+
+    return app;
   }
 }
 
-module.exports = Server
+module.exports = Server;
