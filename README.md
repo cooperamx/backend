@@ -2,7 +2,7 @@
 
 The Cooperamx backend...
 
-## Get Started
+## Quick Start
 
 1. Clone the repository into your local
 2. Create a `.env.local` file based on the sample
@@ -16,6 +16,8 @@ $ cp envs/.env.sample envs/.env.local
 5. Run `gcloud beta emulators datastore start`
 6. Run `docker-compose up`
 7. Start hitting the API :+1:
+
+For more details see next section.
 
 ## Local Development
 

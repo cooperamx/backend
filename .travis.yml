@@ -36,7 +36,7 @@ jobs:
 
     - stage: Build and Push
       name: build-image
-      if: branch == master AND (NOT (type IN (push, pull_request)))
+      if: branch = master AND type = push AND fork = false
       language: shell
       <<: *setup_gcloud
       install: true # no-op
@@ -45,7 +45,7 @@ jobs:
     - stage: Deploy
       name: deploy
       language: shell
-      if: branch == master AND (NOT (type IN (push, pull_request)))
+      if: branch = master AND type = push AND fork = false
       <<: *setup_gcloud
       install: true # no-op
       script: source bin/env && ./bin/deploy.sh
