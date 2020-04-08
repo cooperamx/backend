@@ -1,9 +1,10 @@
-/* eslint no-console: 0 */
-const express = require('express');
+const Server = require('./server');
 
-const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
-app.get('/', (req, res) => res.send('Hello Coopera.mx!'));
+const server = new Server({
+  port,
+  environment: process.env.ENVIRONMENT,
+});
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+server.start();
