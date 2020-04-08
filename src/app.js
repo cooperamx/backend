@@ -1,8 +1,10 @@
 const Server = require('./server');
 
-const instance = new Server({
-  port: 8080,
+const port = process.env.PORT || 8080;
+
+const server = new Server({
+  port,
   environment: process.env.ENVIRONMENT,
 });
 
-instance.start();
+server.start();
