@@ -125,3 +125,6 @@ config/*
 !config/*.enc.*
 !config/travis-cd.json.enc
 !config/default.json
+
+
+envs/.env.local
