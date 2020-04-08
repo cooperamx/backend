@@ -20,7 +20,7 @@ deps: ## install local dependencies
 
 .PHONY: build
 build: ## build docker-compose images
-	@docker-compose build
+	@docker build -t gcr.io/${PROJECT_ID}/${IMAGE} .
 
 .PHONY: validate
 validate: test lint ## run linter and tests
