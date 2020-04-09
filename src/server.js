@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const { Datastore } = require('@google-cloud/datastore');
 
 const CommerceController = require('./controllers/commerce');
@@ -25,6 +27,7 @@ class Server {
     const checkoutController = CheckoutController(checkoutRepository);
 
     app.use(bodyParser.json());
+    app.use(cors());
 
     app.get('/', (req, res) => res.send('Hello World'));
     app.use('/api/v1/commerces', commerceController);
