@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   dev:
+    user: root
     image: gcr.io/${PROJECT_ID}/${IMAGE}
     build: .
     volumes:
